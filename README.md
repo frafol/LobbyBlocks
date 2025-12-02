@@ -8,7 +8,7 @@ Place blocks anywhere in your hub — create **blocked regions** exactly how you
 Runs smoothly with **minimal impact** on your server.
 
 ### 🎆 **Animations**
-Enjoy beautiful block removal animations
+Enjoy beautiful block removal animations.
 *(requires ProtocolLib/PacketEvents)*.
 
 ### ⚙️ **Settings GUI**
