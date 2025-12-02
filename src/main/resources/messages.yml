@@ -1,0 +1,21 @@
+# Messages. Made with ❤ by frafol.
+# For support: https://discord.com/invite/sTSwaGBCdC
+
+messages:
+
+  prefix: "&d&lLobbyBlocks &7»"
+
+  usage: "%prefix% &7Use: &d/lobbyblocks [reload/pos1/pos2/createregion]&7."
+  no_permission: "%prefix% &7You do not have the &dpermission &7to do this."
+  no_block_permission: "%prefix% &7You do not have the &dpermission &7to use this block."
+  reloaded: "%prefix% &7Configuration reloaded &dsuccessfully&7."
+
+  regions:
+    pos1: "%prefix% &7Position 1 set &asuccessfully&7."
+    pos2: "%prefix% &7Position 2 set &asuccessfully&7."
+    no_positions: "%prefix% &7You should use pos1/pos2 commands &cbefore&7."
+    no_name: "%prefix% &7You should give a name to your &dregion&7."
+    created: "%prefix% &7Region named %name% created &asuccessfully&7."
+
+  gui:
+    selected: "%prefix% &7You selected &d%block%&7."

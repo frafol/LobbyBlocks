@@ -1,0 +1,32 @@
+gui:
+  title: "&aBlock selector"
+  size: 27
+  items:
+    10:
+      material: STONE
+      name: "&a&lSTONE"
+      permission: "null"
+      lore:
+        - "&7Click to use this block as "
+        - "&7lobby block."
+    12:
+      material: SAND
+      name: "&6&lSAND"
+      permission: "null"
+      lore:
+        - "&7Click to use this block as "
+        - "&7lobby block."
+    14:
+      material: DIAMOND_BLOCK
+      name: "&b&lDIAMOND BLOCK"
+      permission: "lobbyblocks.vip"
+      lore:
+        - "&7Click to use this block as "
+        - "&7lobby block."
+    16:
+      material: OBSIDIAN
+      name: "&8&lOBSIDIAN"
+      permission: "lobbyblocks.vip"
+      lore:
+        - "&7Click to use this block as "
+        - "&7lobby block."

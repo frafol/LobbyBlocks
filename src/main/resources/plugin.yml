@@ -1,0 +1,15 @@
+name: LobbyBlocks
+version: '${project.version}'
+main: it.frafol.lobbyblocks.LobbyBlocks
+authors: [ frafol ]
+api-version: 1.13
+folia-supported: true
+description: "LobbyBlocks plugin."
+soft-depend:
+  - packetevents
+  - ProtocolLib
+commands:
+  lobbyblocks:
+    description: LobbyBlocks command
+    usage: /<command> [reload|pos1|pos2|create]
+    aliases: [lb, lobbyblock]

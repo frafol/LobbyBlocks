@@ -1,0 +1,75 @@
+# Configuration file. Made with ❤ by frafol.
+# For support: https://discord.com/invite/sTSwaGBCdC
+
+settings:
+
+  minimessage: false
+  update_check: true
+  auto_update: true
+  stats: true
+
+  # Removes some credit messages, if you want to support the developer, please leave this to false.
+  credit_less: false
+
+  # As default, the created regions (/lobbyblocks pos1, /lobbyblocks pos2, /lobbyblocks create) blocks the block placement.
+  # Setting this to true, the function will invert.
+  region_invert: false
+
+  # Here you can modify placed block's settings.
+  # The breaking animation requires PacketEvents or ProtocolLib.
+  breaking_animation: true
+  breaking_seconds: 5
+
+  # LobbyBlocks's usage permission.
+  # Use "" to disable this feature.
+  usage_permission: "lobbyblocks.get"
+
+  # LobbyBlocks's setup permission.
+  setup_permission: "lobbyblocks.setup"
+
+  # LobbyBlocks's reload permission.
+  reload_permission: "lobbyblocks.reload"
+
+  # LobbyBlock's item settings.
+  item:
+
+    # Sets the give delay (in ticks).
+    # Can be useful if in your server there is a plugin that clears the inventory on join.
+    # Do not set it to 0 or less.
+    delay: 5
+
+    settings:
+
+      # Sets the settings block item slot.
+      slot: 8
+
+      # Sets the settings block item type.
+      # You can use these values: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+      type: "COMPARATOR"
+
+      # Sets the settings block item name.
+      name: "&cBlock settings"
+
+      # Sets the settings block item lore.
+      lore:
+        - "&7Use this item to a"
+        - "&7player that you want to"
+        - "&7knockback &dup&7."
+
+      # Some other settings about the settings block item.
+      prevent_drop: true
+      prevent_move: true
+
+    block:
+
+      # Sets the settings block item slot.
+      slot: 0
+
+      # Sets the block item name, "none" will display the default block name.
+      name: "none"
+
+      # Some other settings about the settings block item.
+      prevent_drop: true
+      prevent_move: true
+
+# Enjoy!
