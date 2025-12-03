@@ -149,7 +149,16 @@ public class LobbyBlocks extends JavaPlugin {
                 .relocate(legacyguirelocation)
                 .build();
 
+        final Relocation xseriesrelocation = new Relocation("com{}github{}cryptomorin", "it{}frafol{}libs{}xseries");
+        Library xseries = Library.builder()
+                .groupId("com{}github{}cryptomorin")
+                .artifactId("XSeries")
+                .version("13.5.1")
+                .relocate(xseriesrelocation)
+                .build();
+
 		bukkitLibraryManager.loadLibrary(yaml);
+        bukkitLibraryManager.loadLibrary(xseries);
         bukkitLibraryManager.loadLibrary(legacygui);
 		bukkitLibraryManager.loadLibrary(scheduler);
 		bukkitLibraryManager.loadLibrary(updater);
