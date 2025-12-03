@@ -1,6 +1,9 @@
 package it.frafol.lobbyblocks;
 
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import it.frafol.lobbyblocks.commands.MainCommand;
 import it.frafol.lobbyblocks.enums.SpigotConfig;
@@ -25,9 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.simpleyaml.configuration.file.YamlFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -153,7 +155,7 @@ public class LobbyBlocks extends JavaPlugin {
         Library xseries = Library.builder()
                 .groupId("com{}github{}cryptomorin")
                 .artifactId("XSeries")
-                .version("13.5.1")
+                .version(fetchXSeriesVersion())
                 .relocate(xseriesrelocation)
                 .build();
 
@@ -163,6 +165,46 @@ public class LobbyBlocks extends JavaPlugin {
 		bukkitLibraryManager.loadLibrary(scheduler);
 		bukkitLibraryManager.loadLibrary(updater);
 	}
+
+    @SuppressWarnings("deprecation")
+    public static String fetchXSeriesVersion() {
+        final String fallbackVersion = "13.5.1";
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL("https://api.github.com/repos/CryptoMorin/XSeries/releases/latest");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+            if (conn.getResponseCode() != 200) return fallbackVersion;
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null) sb.append(line);
+            in.close();
+            String json = sb.toString();
+            JsonParser parser = new JsonParser();
+            JsonElement root = parser.parse(json);
+            if (root.isJsonObject()) {
+                JsonObject obj = root.getAsJsonObject();
+                if (obj.has("tag_name")) {
+                    String tag = obj.get("tag_name").getAsString();
+                    if (tag.startsWith("v") || tag.startsWith("V")) {
+                        return tag.substring(1);
+                    } else {
+                        return tag;
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return fallbackVersion;
+    }
 
 	private void checkSupportedVersion() {
 		getLogger().info("Server version: " + getServer().getBukkitVersion() + ".");
