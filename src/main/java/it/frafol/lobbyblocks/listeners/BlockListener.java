@@ -94,10 +94,28 @@ public class BlockListener implements Listener {
     }
 
     private void removeTask(Block block, int removal) {
-        UniversalScheduler.getScheduler(plugin).runTaskLater(() -> {
+        if (!usingFolia()) {
+            UniversalScheduler.getScheduler(plugin).runTaskLater(() -> {
+                block.setType(Material.AIR);
+                PlayerCache.getBreakingReplaced().remove(block);
+                PlayerCache.getBreaking().remove(block);
+            }, 20L * removal);
+            return;
+        }
+
+        plugin.getServer().getRegionScheduler().runDelayed(plugin, block.getLocation(), task -> {
             block.setType(Material.AIR);
             PlayerCache.getBreakingReplaced().remove(block);
             PlayerCache.getBreaking().remove(block);
         }, 20L * removal);
+    }
+
+    private boolean usingFolia() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            return false;
+        }
     }
 }
