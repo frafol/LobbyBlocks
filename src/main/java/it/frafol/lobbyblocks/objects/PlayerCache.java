@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.FallingBlock;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +21,4 @@ public class PlayerCache {
 
     @Getter
     private Map<Block, Block> breakingReplaced = new ConcurrentHashMap<>();
-
-    @Getter
-    private Set<FallingBlock> breakingGravity = ConcurrentHashMap.newKeySet();
 }

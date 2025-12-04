@@ -23,7 +23,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -332,10 +331,6 @@ public class LobbyBlocks extends JavaPlugin {
         for (Block block : PlayerCache.getBreaking()) {
             block.setType(Material.AIR);
             PlayerCache.getBreaking().remove(block);
-        }
-        for (FallingBlock block : PlayerCache.getBreakingGravity()) {
-            block.remove();
-            PlayerCache.getBreakingGravity().remove(block);
         }
     }
 

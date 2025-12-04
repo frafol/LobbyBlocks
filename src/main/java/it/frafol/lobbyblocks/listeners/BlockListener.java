@@ -10,12 +10,15 @@ import it.frafol.lobbyblocks.objects.PlayerCache;
 import it.frafol.lobbyblocks.objects.RegionUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
@@ -51,9 +54,25 @@ public class BlockListener implements Listener {
 
         if (block.getType().hasGravity()) {
             placedBlock.setType(Material.AIR);
-            UniversalScheduler.getScheduler(plugin).runTask(() -> placedBlock.setType(Material.SAND, false));
+            setNoGravity(placedBlock);
         }
         startRemovalTask(placedBlock);
+    }
+
+    @EventHandler
+    private void onPhysics(BlockPhysicsEvent event) {
+        if (PlayerCache.getBreaking().contains(event.getBlock())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockFall(EntityChangeBlockEvent event) {
+        if (event.getEntity() instanceof FallingBlock) {
+            if (PlayerCache.getBreaking().contains(event.getBlock())) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler
@@ -108,5 +127,10 @@ public class BlockListener implements Listener {
             PlayerCache.getBreakingReplaced().remove(block);
             PlayerCache.getBreaking().remove(block);
         }, 20L * removal);
+    }
+
+    private void setNoGravity(Block block) {
+        if (!plugin.usingFolia()) UniversalScheduler.getScheduler(plugin).runTask(() -> block.setType(Material.SAND, false));
+        else plugin.getServer().getRegionScheduler().run(plugin, block.getLocation(), task -> block.setType(Material.SAND, false));
     }
 }
