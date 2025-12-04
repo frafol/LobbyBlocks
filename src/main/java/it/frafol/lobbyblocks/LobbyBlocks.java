@@ -1,5 +1,6 @@
 package it.frafol.lobbyblocks;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -75,6 +76,11 @@ public class LobbyBlocks extends JavaPlugin {
 
 		instance = this;
 
+        getLogger().info("\n __    _____  ____  ____  _  _    ____  __    _____  ___  _  _  ___ \n" +
+                "(  )  (  _  )(  _ \\(  _ \\( \\/ )  (  _ \\(  )  (  _  )/ __)( )/ )/ __)\n" +
+                " )(__  )(_)(  ) _ < ) _ < \\  /    ) _ < )(__  )(_)(( (__  )  ( \\__ \\\n" +
+                "(____)(_____)(____/(____/ (__)   (____/(____)(_____)\\___)(_)\\_)(___/\n");
+
 		loadDependencies();
 		checkSupportedVersion();
 
@@ -107,7 +113,10 @@ public class LobbyBlocks extends JavaPlugin {
 		SettingItem.loadSettings();
         settings = SettingItem.getSettings();
         BlockItem.loadBlock();
-        if (isLegacyServer()) LegacyGuiUtil.createGUIMenu();
+        if (isLegacyServer()) {
+            getLogger().warning("Detected a Legacy server, please consider upgrading to new versions.");
+            LegacyGuiUtil.createGUIMenu();
+        }
 		if (!getServer().getOnlinePlayers().isEmpty()) for (Player players : getServer().getOnlinePlayers()) startupPlayer(players);
 		getLogger().info("Plugin successfully loaded!");
 	}
@@ -393,14 +402,6 @@ public class LobbyBlocks extends JavaPlugin {
 	}
 
     public boolean isLegacyServer() {
-        String version = getServer().getBukkitVersion();
-        String[] parts = version.split("-");
-        String versionString = parts[1];
-        try {
-            String targetVersion = "1.21";
-            return versionString.compareTo(targetVersion) < 0;
-        } catch (Exception e) {
-            return false;
-        }
+        return !XMaterial.supports(21);
     }
 }
