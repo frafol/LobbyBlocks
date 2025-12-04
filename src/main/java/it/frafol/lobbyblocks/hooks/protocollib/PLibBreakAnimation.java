@@ -28,6 +28,10 @@ public class PLibBreakAnimation {
     private final Map<Location, Integer> animationIds = new ConcurrentHashMap<>();
 
     public void startBlockAnimation(LobbyBlocks plugin, Block block, int seconds) {
+        if (plugin.usingFolia()) {
+            FoliaPLibBreakAnimation.startBlockAnimation(plugin, block, seconds);
+            return;
+        }
         Location loc = block.getLocation();
         resetAnimation(block);
         if (runningAnimations.containsKey(loc)) return;

@@ -24,6 +24,10 @@ public class PEventsBreakAnimation {
     private final Map<Location, Integer> animationIds = new ConcurrentHashMap<>();
 
     public void startBlockAnimation(LobbyBlocks plugin, Block block, int seconds) {
+        if (plugin.usingFolia()) {
+            FoliaPEventsBreakAnimation.startBlockAnimationFolia(plugin, block, seconds);
+            return;
+        }
         Location loc = block.getLocation();
         resetAnimation(plugin, block);
         if (runningAnimations.containsKey(loc)) return;

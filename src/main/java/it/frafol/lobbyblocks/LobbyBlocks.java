@@ -404,4 +404,13 @@ public class LobbyBlocks extends JavaPlugin {
     public boolean isLegacyServer() {
         return !XMaterial.supports(21);
     }
+
+    public boolean usingFolia() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            return false;
+        }
+    }
 }
