@@ -19,7 +19,9 @@ import lombok.SneakyThrows;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
 import net.byteflux.libby.relocation.Relocation;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,7 +35,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class LobbyBlocks extends JavaPlugin {
@@ -234,6 +238,7 @@ public class LobbyBlocks extends JavaPlugin {
         regionsFile = new File(getDataFolder(), "regions.yml");
         databaseFile = new File(getDataFolder(), "database.yml");
         guiFile = new File(getDataFolder(), "gui.yml");
+        if (usingFolia()) loadCache();
 	}
 
     private FileConfiguration startDatabase(File file) {
@@ -328,10 +333,58 @@ public class LobbyBlocks extends JavaPlugin {
 	}
 
     private void removeBlocks() {
+        if (usingFolia()) saveCache();
         for (Block block : PlayerCache.getBreaking()) {
             block.setType(Material.AIR);
-            PlayerCache.getBreaking().remove(block);
         }
+    }
+
+    private void saveCache() {
+        if (PlayerCache.getBreaking().isEmpty()) return;
+        File cacheFile = new File(getDataFolder(), "cache.yml");
+        FileConfiguration cacheConfig = YamlConfiguration.loadConfiguration(cacheFile);
+        List<String> serializedLocs = new ArrayList<>();
+        for (Block block : PlayerCache.getBreaking()) {
+            Location loc = block.getLocation();
+            String serialized = loc.getWorld().getName() + ";" +
+                    loc.getBlockX() + ";" +
+                    loc.getBlockY() + ";" +
+                    loc.getBlockZ() + ";";
+            serializedLocs.add(serialized);
+        }
+        cacheConfig.set("blocks_to_remove", serializedLocs);
+        try {
+            cacheConfig.save(cacheFile);
+            if (!getServer().isStopping()) getLogger().severe("SHUTDOWN: Please note that plugin shutdown/reloading is not supported.");
+            getLogger().severe("WARNING: A total of " + serializedLocs.size() + " blocks will be removed on plugin restart.");
+            getLogger().severe("WARNING: This is a Folia limitation, this is a normal behaviour.");
+            if (!getServer().isStopping()) getLogger().severe("SHUTDOWN: DO NOT REPLACE THE BLOCKS OR THE PLUGIN WILL REMOVE THEM ON RESTART.");
+        } catch (IOException ignored) {}
+        PlayerCache.getBreaking().clear();
+    }
+
+    private void loadCache() {
+        File cacheFile = new File(getDataFolder(), "cache.yml");
+        if (!cacheFile.exists()) return;
+        FileConfiguration cacheConfig = YamlConfiguration.loadConfiguration(cacheFile);
+        List<String> blocks = cacheConfig.getStringList("blocks_to_remove");
+        if (blocks.isEmpty()) {
+            cacheFile.delete();
+            return;
+        }
+        getLogger().warning("Found " + blocks.size() + " block to be replaced...");
+        for (String entry : blocks) {
+            String[] parts = entry.split(";");
+            if (parts.length != 4) continue;
+            World world = getServer().getWorld(parts[0]);
+            if (world == null) continue;
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
+            int z = Integer.parseInt(parts[3]);
+            Location loc = new Location(world, x, y, z);
+            getServer().getRegionScheduler().run(this, loc, task -> loc.getBlock().setType(Material.AIR));
+        }
+        cacheFile.delete();
     }
 
     private void savePlayerCache() {
