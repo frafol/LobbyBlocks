@@ -56,7 +56,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleDefaultCommand(CommandSender sender) {
-        if (sender instanceof Player player) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (player.hasPermission(SpigotConfig.RELOAD_PERMISSION.get(String.class))) {
                 player.sendMessage(SpigotMessages.USAGE.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
                 return;
@@ -74,12 +75,13 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleReloadCommand(CommandSender sender) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             TextFile.reloadAll();
             sender.sendMessage(SpigotMessages.RELOADED.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
         }
 
+        Player player = (Player) sender;
         if (!player.hasPermission(SpigotConfig.RELOAD_PERMISSION.get(String.class))) {
             if (SpigotConfig.CREDIT_LESS.get(Boolean.class)) {
                 player.sendMessage(SpigotMessages.NO_PERMISSION.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
@@ -94,11 +96,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handlePos1Command(CommandSender sender) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(SpigotMessages.PLAYER_ONLY.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
         }
 
+        Player player = (Player) sender;
         if (!player.hasPermission(SpigotConfig.SETUP_PERMISSION.get(String.class))) {
             player.sendMessage(SpigotMessages.NO_PERMISSION.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
@@ -109,11 +112,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handlePos2Command(CommandSender sender) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(SpigotMessages.PLAYER_ONLY.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
         }
 
+        Player player = (Player) sender;
         if (!player.hasPermission(SpigotConfig.SETUP_PERMISSION.get(String.class))) {
             player.sendMessage(SpigotMessages.NO_PERMISSION.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
@@ -124,11 +128,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleCreateCommand(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(SpigotMessages.PLAYER_ONLY.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
         }
 
+        Player player = (Player) sender;
         if (!player.hasPermission(SpigotConfig.SETUP_PERMISSION.get(String.class))) {
             player.sendMessage(SpigotMessages.NO_PERMISSION.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
