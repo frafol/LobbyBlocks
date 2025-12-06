@@ -21,10 +21,14 @@ public class BlockItem {
     private ItemStack block;
 
     public void loadBlock() {
-        block = new ItemStack(Material.AIR);
+        if (getDefaultMaterial() == null) {
+            instance.getLogger().severe("You did not configure any block! Please resolve the issue if you don't want errors.");
+            block = new ItemStack(Material.AIR);
+            return;
+        }
+        block = new ItemStack(getDefaultMaterial());
         ItemMeta blockMeta = block.getItemMeta();
-        if (blockMeta == null) return;
-        blockMeta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
+        if (!SpigotConfig.BLOCK_ITEMNAME.get(String.class).equals("none")) blockMeta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
         block.setAmount(64);
         block.setItemMeta(blockMeta);
     }
@@ -38,7 +42,9 @@ public class BlockItem {
         if (dataBlock == null) return null;
         ItemStack blockStack = new ItemStack(dataBlock);
         blockStack.setAmount(64);
-        blockStack.setItemMeta(block.getItemMeta());
+        ItemMeta meta = block.getItemMeta();
+        if (!SpigotConfig.BLOCK_ITEMNAME.get(String.class).equals("none")) meta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
+        blockStack.setItemMeta(meta);
         PlayerCache.getBlock().put(player.getUniqueId(), dataBlock);
         return blockStack;
     }

@@ -16,6 +16,7 @@ messages:
     no_positions: "%prefix% &7You should use pos1/pos2 commands &cbefore&7."
     no_name: "%prefix% &7You should give a name to your &dregion&7."
     created: "%prefix% &7Region named %name% created &asuccessfully&7."
+    cannot_place: "%prefix% &7You can't place blocks in the region &d%region%&7."
 
   gui:
     selected: "%prefix% &7You selected &d%block%&7."

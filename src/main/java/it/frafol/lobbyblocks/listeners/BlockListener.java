@@ -3,6 +3,7 @@ package it.frafol.lobbyblocks.listeners;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import it.frafol.lobbyblocks.LobbyBlocks;
 import it.frafol.lobbyblocks.enums.SpigotConfig;
+import it.frafol.lobbyblocks.enums.SpigotMessages;
 import it.frafol.lobbyblocks.hooks.packetevents.PEventsBreakAnimation;
 import it.frafol.lobbyblocks.hooks.protocollib.PLibBreakAnimation;
 import it.frafol.lobbyblocks.objects.BlockItem;
@@ -20,6 +21,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class BlockListener implements Listener {
 
@@ -49,6 +51,9 @@ public class BlockListener implements Listener {
         event.setCancelled(false);
         UniversalScheduler.getScheduler(plugin).runTask(() -> {
             block.setAmount(64);
+            ItemMeta meta = block.getItemMeta();
+            if (!SpigotConfig.BLOCK_ITEMNAME.get(String.class).equals("none")) meta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
+            block.setItemMeta(meta);
             player.setItemInHand(block);
         });
 
@@ -83,16 +88,21 @@ public class BlockListener implements Listener {
     }
 
     private boolean canContinue(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
         if (!RegionUtil.isInARegion(event.getBlock().getLocation())) {
             if (SpigotConfig.REGION_INVERT.get(Boolean.class)) {
                 event.setCancelled(true);
                 PlayerCache.getBreakingReplaced().remove(event.getBlockPlaced());
+                player.sendMessage(SpigotMessages.CANNOT_PLACE.color().replace("%prefix%", SpigotMessages.PREFIX.color())
+                        .replace("%region%", ""));
                 return false;
             }
         } else {
             if (!SpigotConfig.REGION_INVERT.get(Boolean.class)) {
                 event.setCancelled(true);
                 PlayerCache.getBreakingReplaced().remove(event.getBlockPlaced());
+                player.sendMessage(SpigotMessages.CANNOT_PLACE.color().replace("%prefix%", SpigotMessages.PREFIX.color())
+                        .replace("%region%", RegionUtil.getRegion(event.getBlock().getLocation())));
                 return false;
             }
         }
@@ -101,11 +111,11 @@ public class BlockListener implements Listener {
 
     private void startRemovalTask(Block block) {
         final int removalTime = SpigotConfig.BREAKING_SECONDS.get(Integer.class);
-        if (plugin.isPacketevents()) {
+        if (plugin.isPacketevents() && SpigotConfig.BREAKING_ANIMATION.get(Boolean.class)) {
             PEventsBreakAnimation.startBlockAnimation(plugin, block, removalTime);
             return;
         }
-        if (plugin.isProtocollib()) {
+        if (plugin.isProtocollib() && SpigotConfig.BREAKING_ANIMATION.get(Boolean.class)) {
             PLibBreakAnimation.startBlockAnimation(plugin, block, removalTime);
             return;
         }
@@ -115,7 +125,7 @@ public class BlockListener implements Listener {
     private void removeTask(Block block, int removal) {
         if (!plugin.usingFolia()) {
             UniversalScheduler.getScheduler(plugin).runTaskLater(() -> {
-                block.setType(Material.AIR);
+                block.setType(Material.AIR, false);
                 PlayerCache.getBreakingReplaced().remove(block);
                 PlayerCache.getBreaking().remove(block);
             }, 20L * removal);
@@ -123,7 +133,7 @@ public class BlockListener implements Listener {
         }
 
         plugin.getServer().getRegionScheduler().runDelayed(plugin, block.getLocation(), task -> {
-            block.setType(Material.AIR);
+            block.setType(Material.AIR, false);
             PlayerCache.getBreakingReplaced().remove(block);
             PlayerCache.getBreaking().remove(block);
         }, 20L * removal);

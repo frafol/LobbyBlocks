@@ -48,7 +48,7 @@ public class PEventsBreakAnimation {
                 if (crack > maxCrack) {
                     PlayerCache.getBreaking().remove(block);
                     if (PlayerCache.getBreakingReplaced().get(block) == null) {
-                        block.setType(Material.AIR);
+                        block.setType(Material.AIR, false);
                     } else {
                         block.setType(PlayerCache.getBreakingReplaced().get(block).getType());
                     }

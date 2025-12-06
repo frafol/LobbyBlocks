@@ -17,6 +17,7 @@ public enum SpigotMessages {
     CREATED("messages.regions.created"),
     NO_POSITIONS("messages.regions.no_positions"),
     NO_NAME("messages.regions.no_name"),
+    CANNOT_PLACE("messages.regions.cannot_place"),
 
     SELECTED("messages.gui.selected");
 

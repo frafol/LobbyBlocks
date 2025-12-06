@@ -58,7 +58,7 @@ public class FoliaPLibBreakAnimation {
                     if (crack > 9) {
                         PlayerCache.getBreaking().remove(b);
                         if (PlayerCache.getBreakingReplaced().get(b) == null) {
-                            b.setType(Material.AIR);
+                            b.setType(Material.AIR, false);
                         } else {
                             b.setType(PlayerCache.getBreakingReplaced().get(b).getType());
                         }
