@@ -53,6 +53,7 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        if (!event.getAction().isLeftClick() && !event.getAction().isRightClick()) return;
         if (!player.getItemInHand().equals(plugin.getSettings())) return;
         event.setCancelled(true);
         GuiUtil.open(event.getPlayer());
