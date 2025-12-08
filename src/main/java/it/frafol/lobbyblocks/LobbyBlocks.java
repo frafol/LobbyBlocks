@@ -256,6 +256,7 @@ public class LobbyBlocks extends JavaPlugin {
         if (getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
             protocollib = true;
             getLogger().info("Hooked in ProtocolLib successfully.");
+            return;
         }
         getLogger().warning("You need PacketEvents/ProtocolLib to see block destroy animations.");
     }
