@@ -303,7 +303,12 @@ public class LobbyBlocks extends JavaPlugin {
             if (items != null && (items.equals(BlockItem.getBlockItemStack(player)) || items.equals(settings))) items.setAmount(0);
         }
 
-		UniversalScheduler.getScheduler(this).runTaskLater(() -> player.getInventory().setItem(SpigotConfig.SETTINGS_SLOT.get(Integer.class), LobbyBlocks.getInstance().getSettings()), (long) SpigotConfig.DELAY.get(Integer.class));
+        if (SpigotConfig.SETTINGS.get(Boolean.class)) {
+            UniversalScheduler.getScheduler(this).runTaskLater(() ->
+                    player.getInventory().setItem(SpigotConfig.SETTINGS_SLOT.get(Integer.class),
+                            LobbyBlocks.getInstance().getSettings()), (long) SpigotConfig.DELAY.get(Integer.class));
+        }
+
         UniversalScheduler.getScheduler(this).runTaskLater(() -> {
             ItemStack block = BlockItem.getBlockItemStack(player);
             block.setAmount(64);

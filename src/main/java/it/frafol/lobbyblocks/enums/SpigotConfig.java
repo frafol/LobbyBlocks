@@ -20,6 +20,7 @@ public enum SpigotConfig {
 
     DELAY("settings.item.delay"),
 
+    SETTINGS("settings.item.settings.enabled"),
     SETTINGS_SLOT("settings.item.settings.slot"),
     SETTINGS_TYPE("settings.item.settings.type"),
     SETTINGS_ITEMNAME("settings.item.settings.name"),

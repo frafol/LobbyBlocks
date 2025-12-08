@@ -3,6 +3,7 @@ package it.frafol.lobbyblocks.commands;
 import it.frafol.lobbyblocks.LobbyBlocks;
 import it.frafol.lobbyblocks.enums.SpigotConfig;
 import it.frafol.lobbyblocks.enums.SpigotMessages;
+import it.frafol.lobbyblocks.objects.GuiUtil;
 import it.frafol.lobbyblocks.objects.RegionUtil;
 import it.frafol.lobbyblocks.objects.TextFile;
 import org.bukkit.Location;
@@ -37,6 +38,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         switch (args[0].toLowerCase()) {
             case "reload":
                 handleReloadCommand(sender);
+                break;
+            case "settings":
+                handleSettingsCommand(sender);
                 break;
             case "pos1":
                 handlePos1Command(sender);
@@ -76,7 +80,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     private void handleReloadCommand(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            TextFile.reloadAll();
+            handleReload();
             sender.sendMessage(SpigotMessages.RELOADED.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
             return;
         }
@@ -91,8 +95,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        TextFile.reloadAll();
+        handleReload();
         player.sendMessage(SpigotMessages.RELOADED.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
+    }
+
+    private void handleSettingsCommand(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(SpigotMessages.PLAYER_ONLY.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
+            return;
+        }
+
+        Player player = (Player) sender;
+        if (!player.hasPermission(SpigotConfig.PERMISSION.get(String.class))) {
+            player.sendMessage(SpigotMessages.NO_PERMISSION.color().replace("%prefix%", SpigotMessages.PREFIX.color()));
+            return;
+        }
+
+        GuiUtil.open(player);
     }
 
     private void handlePos1Command(CommandSender sender) {
@@ -163,24 +182,17 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                 .replace("%name%", regionName));
     }
 
+    private void handleReload() {
+        TextFile.reloadAll();
+        if (!plugin.getServer().getOnlinePlayers().isEmpty()) {
+            for (Player players : plugin.getServer().getOnlinePlayers()) plugin.startupPlayer(players);
+        }
+    }
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
-        if (args.length == 1) {
-            List<String> suggestions = Arrays.asList("reload", "pos1", "pos2", "createregion");
-            if (sender.hasPermission(SpigotConfig.RELOAD_PERMISSION.get(String.class))) {
-                return suggestions;
-            } else if (sender.hasPermission(SpigotConfig.SETUP_PERMISSION.get(String.class))) {
-                return Arrays.asList("pos1", "pos2", "createregion");
-            }
-
-            return Collections.emptyList();
-        }
-
+        if (args.length == 1) return Arrays.asList("reload", "settings", "pos1", "pos2", "createregion");
         return Collections.emptyList();
-    }
-
-    private String formatLoc(Location loc) {
-        return String.format("x=%.1f y=%.1f z=%.1f", loc.getX(), loc.getY(), loc.getZ());
     }
 }

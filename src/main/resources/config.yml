@@ -40,6 +40,10 @@ settings:
 
     settings:
 
+      # Enables the settings block menu.
+      # If disabled, you can still use the command /lobbyblocks settings
+      enabled: true
+
       # Sets the settings block item slot.
       slot: 8
 
