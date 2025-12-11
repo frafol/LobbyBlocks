@@ -1,6 +1,7 @@
 package it.frafol.lobbyblocks.enums;
 
 import it.frafol.lobbyblocks.LobbyBlocks;
+import it.frafol.lobbyblocks.objects.ChatUtil;
 
 public enum SpigotMessages {
 
@@ -29,7 +30,7 @@ public enum SpigotMessages {
     }
 
     public String color() {
-        return get(String.class).replace("&", "§");
+        return ChatUtil.color(get(String.class));
     }
 
     public <T> T get(Class<T> clazz) {

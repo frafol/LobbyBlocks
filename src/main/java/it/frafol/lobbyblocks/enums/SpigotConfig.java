@@ -1,10 +1,9 @@
 package it.frafol.lobbyblocks.enums;
 
 import it.frafol.lobbyblocks.LobbyBlocks;
+import it.frafol.lobbyblocks.objects.ChatUtil;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public enum SpigotConfig {
 
@@ -45,37 +44,7 @@ public enum SpigotConfig {
     }
 
     public String color() {
-        String hex = convertHexColors(get(String.class));
-        return hex.replace("&", "§");
-    }
-
-    private String convertHexColors(String message) {
-
-        if (!containsHexColor(message)) {
-            return message;
-        }
-
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        Matcher matcher = pattern.matcher(message);
-        while (matcher.find()) {
-            String hexCode = message.substring(matcher.start(), matcher.end());
-            String replaceSharp = hexCode.replace('#', 'x');
-
-            char[] ch = replaceSharp.toCharArray();
-            StringBuilder builder = new StringBuilder();
-            for (char c : ch) {
-                builder.append("&").append(c);
-            }
-
-            message = message.replace(hexCode, builder.toString());
-            matcher = pattern.matcher(message);
-        }
-        return message;
-    }
-
-    private boolean containsHexColor(String message) {
-        String hexColorPattern = "(?i)&#[a-f0-9]{6}";
-        return message.matches(".*" + hexColorPattern + ".*");
+        return ChatUtil.color(get(String.class));
     }
 
     public List<String> getStringList() {

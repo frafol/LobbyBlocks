@@ -14,6 +14,7 @@ import it.frafol.lobbyblocks.listeners.ItemListener;
 import it.frafol.lobbyblocks.listeners.JoinListener;
 import it.frafol.lobbyblocks.listeners.LeaveListener;
 import it.frafol.lobbyblocks.objects.*;
+import it.frafol.lobbyblocks.objects.gui.LegacyGuiUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.byteflux.libby.BukkitLibraryManager;
@@ -119,7 +120,7 @@ public class LobbyBlocks extends JavaPlugin {
         if (isLegacyServer()) {
             getLogger().warning("Detected a Legacy server, please consider upgrading to new versions.");
             LegacyGuiUtil.createGUIMenu();
-        }
+        } else GuiUtil.setupEvents();
 		if (!getServer().getOnlinePlayers().isEmpty()) for (Player players : getServer().getOnlinePlayers()) startupPlayer(players);
 		getLogger().info("Plugin successfully loaded!");
 	}

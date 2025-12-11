@@ -13,10 +13,6 @@ public enum SpigotVersion {
         this.path = path;
     }
 
-    public String color() {
-        return get(String.class).replace("&", "§");
-    }
-
     public <T> T get(Class<T> clazz) {
         return clazz.cast(instance.getVersionTextFile().get(path));
     }
