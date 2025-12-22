@@ -164,11 +164,13 @@ public class LobbyBlocks extends JavaPlugin {
                 .relocate(legacyguirelocation)
                 .build();
 
+        String xSeriesV = fetchXSeriesVersion();
         final Relocation xseriesrelocation = new Relocation("com{}github{}cryptomorin", "it{}frafol{}libs{}xseries");
         Library xseries = Library.builder()
                 .groupId("com{}github{}cryptomorin")
                 .artifactId("XSeries")
-                .version(fetchXSeriesVersion())
+                .version(xSeriesV)
+                .url("https://repo1.maven.org/maven2/com/github/cryptomorin/XSeries/" + xSeriesV + "/XSeries-" + xSeriesV + ".jar")
                 .relocate(xseriesrelocation)
                 .build();
 
