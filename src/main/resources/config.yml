@@ -15,6 +15,10 @@ settings:
   # Setting this to true, the function will invert.
   region_invert: false
 
+  # This will prevent players from place other blocks external to LobbyBlocks.
+  # You can bypass this with setup permission.
+  prevent_other_blocks: true
+
   # Here you can modify placed block's settings.
   # The breaking animation requires PacketEvents or ProtocolLib.
   breaking_animation: true

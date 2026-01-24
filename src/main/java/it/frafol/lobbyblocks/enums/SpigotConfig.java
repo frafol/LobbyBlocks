@@ -13,6 +13,7 @@ public enum SpigotConfig {
     RELOAD_PERMISSION("settings.reload_permission"),
     CREDIT_LESS("settings.credit_less"),
     REGION_INVERT("settings.region_invert"),
+    PREVENT_OTHER_BLOCKS("settings.prevent_other_blocks"),
 
     BREAKING_ANIMATION("settings.breaking_animation"),
     BREAKING_SECONDS("settings.breaking_seconds"),

@@ -64,6 +64,16 @@ public class BlockListener implements Listener {
         startRemovalTask(placedBlock);
     }
 
+    @SuppressWarnings("deprecation")
+    @EventHandler
+    private void onOtherPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        ItemStack block = player.getItemInHand();
+        if (!SpigotConfig.PREVENT_OTHER_BLOCKS.get(Boolean.class)) return;
+        if (player.hasPermission(SpigotConfig.SETUP_PERMISSION.get(String.class))) return;
+        if (!block.getType().equals(BlockItem.getBlockItemStack(player).getType())) event.setCancelled(true);
+    }
+
     @EventHandler
     private void onPhysics(BlockPhysicsEvent event) {
         if (PlayerCache.getBreaking().contains(event.getBlock())) {
