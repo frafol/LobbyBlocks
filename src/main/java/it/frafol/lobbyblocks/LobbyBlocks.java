@@ -459,7 +459,7 @@ public class LobbyBlocks extends JavaPlugin {
 	}
 
     public boolean isLegacyServer() {
-        return !XMaterial.supports(21);
+        return !XMaterial.supports(16);
     }
 
     public boolean usingFolia() {
