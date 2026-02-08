@@ -54,6 +54,7 @@ settings:
       # Sets the settings block item type.
       # You can use these values: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
       type: "COMPARATOR"
+      modeldata: 0
 
       # Sets the settings block item name.
       name: "&cBlock settings"

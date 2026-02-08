@@ -24,6 +24,7 @@ public enum SpigotConfig {
     SETTINGS_SLOT("settings.item.settings.slot"),
     SETTINGS_TYPE("settings.item.settings.type"),
     SETTINGS_ITEMNAME("settings.item.settings.name"),
+    SETTINGS_MODELDATA("settings.item.settings.modeldata"),
     SETTINGS_DROP("settings.item.settings.prevent_drop"),
     SETTINGS_MOVE("settings.item.settings.prevent_move"),
     SETTINGS_LORE("settings.item.settings.lore"),

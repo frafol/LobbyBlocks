@@ -23,6 +23,7 @@ public class SettingItem {
         if (settingsMeta == null) return;
         settingsMeta.setDisplayName(SpigotConfig.SETTINGS_ITEMNAME.color());
         settingsMeta.setLore(getLore(SpigotConfig.SETTINGS_LORE.getStringList()));
+        settingsMeta.setCustomModelData(SpigotConfig.SETTINGS_MODELDATA.get(Integer.class));
         settings.setItemMeta(settingsMeta);
     }
 

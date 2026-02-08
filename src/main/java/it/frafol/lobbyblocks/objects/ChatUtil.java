@@ -56,11 +56,11 @@ public class ChatUtil {
         return message.matches(".*" + hexColorPattern + ".*");
     }
 
-    private static boolean supportsMiniMessage() {
+    public static boolean supportsMiniMessage() {
         try {
             MiniMessage mm = MiniMessage.miniMessage();
             mm.deserialize("supports");
-            return true;
+            return SpigotConfig.MINIMESSAGE.get(Boolean.class);
         } catch (Throwable e) {
             return false;
         }

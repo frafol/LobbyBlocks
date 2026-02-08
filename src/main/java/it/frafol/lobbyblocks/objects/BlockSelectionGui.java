@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 public class BlockSelectionGui extends CustomGui {
@@ -51,6 +52,9 @@ public class BlockSelectionGui extends CustomGui {
             String displayName = ChatUtil.color(cfg.getString(base + ".name"));
             List<String> lore = ChatUtil.color(cfg.getStringList(base + ".lore"));
             ItemStack item = new ItemStack(mat);
+            ItemMeta meta = item.getItemMeta();
+            meta.setCustomModelData(BlockItem.getModelData(mat));
+            item.setItemMeta(meta);
             if (displayName != null) GuiCreator.setItemName(item, displayName);
             if (!lore.isEmpty()) GuiCreator.setItemLore(item, lore);
             try {

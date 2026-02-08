@@ -30,6 +30,7 @@ public class BlockItem {
         ItemMeta blockMeta = block.getItemMeta();
         if (!SpigotConfig.BLOCK_ITEMNAME.get(String.class).equals("none")) blockMeta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
         block.setAmount(64);
+        blockMeta.setCustomModelData(getModelData(getDefaultMaterial()));
         block.setItemMeta(blockMeta);
     }
 
@@ -44,6 +45,7 @@ public class BlockItem {
         blockStack.setAmount(64);
         ItemMeta meta = block.getItemMeta();
         if (!SpigotConfig.BLOCK_ITEMNAME.get(String.class).equals("none")) meta.setDisplayName(SpigotConfig.BLOCK_ITEMNAME.color());
+        meta.setCustomModelData(getModelData(dataBlock));
         blockStack.setItemMeta(meta);
         PlayerCache.getBlock().put(player.getUniqueId(), dataBlock);
         return blockStack;
@@ -76,5 +78,19 @@ public class BlockItem {
             }
         }
         return null;
+    }
+
+    public int getModelData(Material material) {
+        if (!instance.getGuiConfig().isConfigurationSection("gui.items")) return 0;
+        for (String key : instance.getGuiConfig().getConfigurationSection("gui.items").getKeys(false)) {
+            String basePath = "gui.items." + key;
+            String matName = instance.getGuiConfig().getString(basePath + ".material");
+            if (matName == null) continue;
+            Material configMat = Material.matchMaterial(matName);
+            if (configMat != null && configMat == material) {
+                return instance.getGuiConfig().getInt(basePath + ".modeldata", 0);
+            }
+        }
+        return 0;
     }
 }

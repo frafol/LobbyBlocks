@@ -4,6 +4,7 @@ gui:
   items:
     10:
       material: STONE
+      modeldata: 0
       name: "&a&lSTONE"
       permission: "null"
       lore:
@@ -11,6 +12,7 @@ gui:
         - "&7lobby block."
     12:
       material: SAND
+      modeldata: 0
       name: "&6&lSAND"
       permission: "null"
       lore:
@@ -18,6 +20,7 @@ gui:
         - "&7lobby block."
     14:
       material: DIAMOND_BLOCK
+      modeldata: 0
       name: "&b&lDIAMOND BLOCK"
       permission: "lobbyblocks.vip"
       lore:
@@ -25,6 +28,7 @@ gui:
         - "&7lobby block."
     16:
       material: OBSIDIAN
+      modeldata: 0
       name: "&8&lOBSIDIAN"
       permission: "lobbyblocks.vip"
       lore:

@@ -48,6 +48,7 @@ public class LegacyGuiUtil {
                 if (displayName != null) meta.setDisplayName(displayName);
                 List<String> lore = ChatUtil.color(cfg.getStringList(base + ".lore"));
                 if (!lore.isEmpty()) meta.setLore(lore);
+                meta.setCustomModelData(BlockItem.getModelData(mat));
                 item.setItemMeta(meta);
             }
 
