@@ -30,7 +30,7 @@ public class BlockSelectionGui extends CustomGui {
     public BlockSelectionGui(Player player) {
         super(player,
                 getGuiSize(),
-                ChatUtil.color(getGuiTitle())
+                getGuiTitle()
         );
         this.instance = LobbyBlocks.getInstance();
         this.cfg = instance.getGuiConfig();
@@ -49,8 +49,8 @@ public class BlockSelectionGui extends CustomGui {
             if (mat == null) continue;
             String permission = cfg.getString(base + ".permission");
             if (permission != null && permission.equalsIgnoreCase("null")) permission = null;
-            String displayName = ChatUtil.color(cfg.getString(base + ".name"));
-            List<String> lore = ChatUtil.color(cfg.getStringList(base + ".lore"));
+            String displayName = cfg.getString(base + ".name");
+            List<String> lore = cfg.getStringList(base + ".lore");
             ItemStack item = new ItemStack(mat);
             ItemMeta meta = item.getItemMeta();
             meta.setCustomModelData(BlockItem.getModelData(mat));

@@ -1,6 +1,7 @@
 package it.frafol.lobbyblocks.objects.gui;
 
 import it.frafol.lobbyblocks.LobbyBlocks;
+import it.frafol.lobbyblocks.objects.ChatUtil;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.Inventory;
@@ -17,6 +18,7 @@ public class SpigotGuiCreator {
     private final LobbyBlocks plugin = LobbyBlocks.getInstance();
 
     public Inventory createInventory(InventoryHolder inventoryHolder, Integer size, String title) {
+        title = ChatUtil.color(title);
         return plugin.getServer().createInventory(inventoryHolder, size, Component.text(title));
     }
 
@@ -32,6 +34,7 @@ public class SpigotGuiCreator {
 
     public void setItemLore(ItemStack item, List<String> lore) {
         if (lore == null || lore.isEmpty()) return;
+        lore = ChatUtil.color(lore);
         ItemMeta meta = item.getItemMeta();
         List<Component> componentLore = lore.stream()
                 .map(Component::text)
