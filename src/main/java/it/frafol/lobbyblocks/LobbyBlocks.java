@@ -1,6 +1,6 @@
 package it.frafol.lobbyblocks;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.reflection.XReflection;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -39,6 +39,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class LobbyBlocks extends JavaPlugin {
@@ -94,8 +95,8 @@ public class LobbyBlocks extends JavaPlugin {
         loadDatabases();
 
 		getLogger().info("Loading commands...");
-        getCommand("lobbyblocks").setExecutor(new MainCommand());
-        getCommand("lobbyblocks").setTabCompleter(new MainCommand());
+        Objects.requireNonNull(getCommand("lobbyblocks")).setExecutor(new MainCommand());
+        Objects.requireNonNull(getCommand("lobbyblocks")).setTabCompleter(new MainCommand());
 
 		getLogger().info("Loading events...");
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);
@@ -183,7 +184,7 @@ public class LobbyBlocks extends JavaPlugin {
 
     @SuppressWarnings("deprecation")
     public static String fetchXSeriesVersion() {
-        final String fallbackVersion = "13.5.1";
+        final String fallbackVersion = "14.0.0";
         HttpURLConnection conn = null;
         try {
             URL url = new URL("https://api.github.com/repos/CryptoMorin/XSeries/releases/latest");
@@ -459,7 +460,7 @@ public class LobbyBlocks extends JavaPlugin {
 	}
 
     public boolean isLegacyServer() {
-        return !XMaterial.supports(16);
+        return !XReflection.supports(1, 16);
     }
 
     public boolean usingFolia() {
